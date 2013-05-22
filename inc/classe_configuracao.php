@@ -33,24 +33,24 @@ class Configuracao
 	
 	public function url_fisico()
 	{
-		//$configuracao["url_fisico"] = $_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'];
-		$configuracao["url_fisico"] = $_SERVER['DOCUMENT_ROOT']."/clientes/oportunidade/";
-		//$configuracao["url_fisico"] = $_SERVER['DOCUMENT_ROOT']."/oportunidade/";
+		//$configuracao["url_fisico"] = $_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF']/;
+		//$configuracao["url_fisico"] = $_SERVER['DOCUMENT_ROOT']."/clientes/oportunidade/";
+		$configuracao["url_fisico"] = $_SERVER['DOCUMENT_ROOT']."/oportunidade/";
 		//$configuracao["host"] = "mysql.iwi.com.br";
 		return $configuracao["url_fisico"];
 	}
 
 	public function url_virtual()
 	{
-		//$configuracao["url_virtual"] = "http://".$_SERVER['HTTP_HOST']."/oportunidade/";
-		$configuracao["url_virtual"] = "http://".$_SERVER['HTTP_HOST']."/clientes/oportunidade/";
+		$configuracao["url_virtual"] = "http://".$_SERVER['HTTP_HOST']."/oportunidade/";
+		//$configuracao["url_virtual"] = "http://".$_SERVER['HTTP_HOST']."/clientes/oportunidade/";
 		return $configuracao["url_virtual"];
 	}
 
 	public function host()
 	{
-		$configuracao["host"] = "216.70.104.128";
-		//$configuracao["host"] = "192.168.0.44";
+		//$configuracao["host"] = "216.70.104.128";
+		$configuracao["host"] = "10.0.1.252";
 		//$configuracao["host"] = "localhost";
 		return $configuracao["host"];
 	}
@@ -71,15 +71,15 @@ class Configuracao
 
 	public function usuario()
 	{
-		//$configuracao["usuario"] = "root";
-		$configuracao["usuario"] = "oportunidade";
+		$configuracao["usuario"] = "root";
+		//$configuracao["usuario"] = "oportunidade";
 		return $configuracao["usuario"];
 	}
 
 	public function senha()
 	{
-		//$configuracao["senha"] = "";
-		$configuracao["senha"] = "oportunidade123!";
+		$configuracao["senha"] = "";
+		//$configuracao["senha"] = "oportunidade123!";
 		return $configuracao["senha"];
 	}
 

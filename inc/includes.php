@@ -11,6 +11,8 @@ else
 	$c = "/var/www/vhosts/agenciaguapa.com.br/httpdocs/clientes/oportunidade/";
 }
 
+//$c = "/Applications/XAMPP/xamppfiles/htdocs/oportunidade/";
+
 //****
 require_once($c."inc/classe_configuracao.php");
 require_once($c."inc/classe_conexao.php");

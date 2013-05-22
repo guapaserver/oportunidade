@@ -1,0 +1,126 @@
+body 
+{  
+	[background_body]   
+	margin: 0px;  	
+	display:block;  	
+	padding:0;  	
+	background-position: top;  
+}  
+
+/*MENU TOPO*/ 
+#largura_menu_topo 
+{ 	
+	font-family: 'DINNeuzeitGroteskStdBoldCnRg';  	
+	top:0px;  	 
+	[altura_menu_topo]  	 
+	[background_menu_topo]  	
+	display:block;  	
+	border-top-width: thick;  	
+	border-top-style: solid;  	
+	border-top-color: #fff;  	
+	border-top-width: 1px;  
+}  
+
+/*BANNER*/ 
+#largura_banner 
+{ 	
+	display:block;  	 
+	[altura_banner]  	 
+	[background_banner]  
+}  
+
+#logo  
+{ 	
+	display:block;  	
+	width:50%;  	
+	margin:0 auto; 	 	
+	float:left;  	 
+	[altura_div_logo]  
+}  
+
+#logo  img 
+{ 	
+	display:block;  	
+	margin-top:20px;  	
+	margin-bottom:7px;  	 			
+	[float_logo]  
+}  
+
+#largura_banner hr 
+{ 	
+	display:block;  	
+	width:100%;  	
+	border-width: 0;  	
+	height: 1px;  	 
+	[background_hr]  	
+	margin:1px;  	
+	float:left;  
+}  
+
+/*MENU CATEGORIA*/ 
+#conteudo_sub_menu
+{ 	
+	display:block;  	
+	font-family: 'colaboratelightregular'; 
+	margin-top:33px; 	
+	width:100%;  	
+	height: 39px;  	
+	float:left;  
+}  
+
+/*FIM MENU CATEGORIA*/  
+
+/*BASE BANNER*/ 
+#base_banner 
+{ 	
+	display:block;  	
+	[altura_base_banner]  	
+	[background_base_banner]  
+} 
+/* FIM BASE BANNER*/  
+				
+.element  
+{ 	 	
+	font-size:14px; 	
+	font-style:normal; 	
+	[background_destaque] 	
+	margin: 0 14px 20px 0 !important; 	
+	[tamanho_borda_destaque]
+	[destaque_borda]
+}  
+
+.sombra_01 
+{ 	
+	display:block; 	
+	[img_sombra_01] 	
+	width:259px; 	
+	height:6px; 	
+	margin-top:3px; 
+}  
+
+.sombra_02 
+{ 	
+	display:block; 	
+	[img_sombra_02] 	
+	width:532px; 	
+	height:9px; 	
+	margin-top:3px; 
+}  
+
+.sombra_03 
+{ 	
+	display:block; 	
+	[img_sombra_03] 	
+	width:809px; 	
+	height:14px; 	
+	margin-top:3px; 
+}  
+
+.sombra_04 
+{ 	
+	display:block; 	
+	[img_sombra_04] 	
+	width:1091px; 	
+	height:19px; 	
+	margin-top:3px; 
+}

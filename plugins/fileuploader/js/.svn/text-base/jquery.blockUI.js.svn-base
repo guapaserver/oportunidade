@@ -1,0 +1,140 @@
+﻿/*!
+ * jQuery blockUI plugin
+ * Version 2.39 (23-MAY-2011)
+ * @requires jQuery v1.2.3 or later
+ *
+ * Examples at: http://malsup.com/jquery/block/
+ * Copyright (c) 2007-2010 M. Alsup
+ * Dual licensed under the MIT and GPL licenses:
+ * http://www.opensource.org/licenses/mit-license.php
+ * http://www.gnu.org/licenses/gpl.html
+ *
+ * Thanks to Amir-Hossein Sobhi for some excellent contributions!
+ */
+
+;(function($) {
+
+if (/1\.(0|1|2)\.(0|1|2)/.test($.fn.jquery) || /^1.1/.test($.fn.jquery)) {
+	alert('blockUI requires jQuery v1.2.3 or later!  You are using v' + $.fn.jquery);
+	return;
+}
+
+$.fn._fadeIn = $.fn.fadeIn;
+
+var noOp = function() {};
+
+// this bit is to ensure we don't call setExpression when we shouldn't (with extra muscle to handle
+// retarded userAgent strings on Vista)
+var mode = document.documentMode || 0;
+var setExpr = $.browser.msie && (($.browser.version < 8 && !mode) || mode < 8);
+var ie6 = $.browser.msie && /MSIE 6.0/.test(navigator.userAgent) && !mode;
+
+// global $ methods for blocking/unblocking the entire page
+$.blockUI   = function(opts) { install(window, opts); };
+$.unblockUI = function(opts) { remove(window, opts); };
+
+// convenience method for quick growl-like notifications  (http://www.google.com/search?q=growl)
+$.growlUI = function(title, message, timeout, onClose) {
+	var $m = $('<div class="growlUI"></div>');
+	if (title) $m.append('<h1>'+title+'</h1>');
+	if (message) $m.append('<h2>'+message+'</h2>');
+	if (timeout == undefined) timeout = 2000;
+	$.blockUI({
+		message: $m, fadeIn: 500, fadeOut: 1000, centerY: false,
+		timeout: timeout, showOverlay: false,
+		onUnblock: onClose, 
+		css: $.blockUI.defaults.growlCSS
+	});
+};
+
+// plugin method for blocking element content
+$.fn.block = function(opts) {
+	return this.unblock({ fadeOut: 0 }).each(function() {
+		if ($.css(this,'position') == 'static')
+			this.style.position = 'relative';
+		if ($.browser.msie)
+			this.style.zoom = 1; // force 'hasLayout'
+		install(this, opts);
+	});
+};
+
+// plugin method for unblocking element content
+$.fn.unblock = function(opts) {
+	return this.each(function() {
+		remove(this, opts);
+	});
+};
+
+$.blockUI.version = 2.39; // 2nd generation blocking at no extra cost!
+
+// override these in your code to change the default behavior and style
+$.blockUI.defaults = {
+	// message displayed when blocking (use null for no message)
+	message:  '<h1>Redirecionando...</h1>',
+
+	title: null,	  // title string; only used when theme == true
+	draggable: true,  // only used when theme == true (requires jquery-ui.js to be loaded)
+	
+	theme: false, // set to true to use with jQuery UI themes
+	
+	// styles for the message when blocking; if you wish to disable
+	// these and use an external stylesheet then do this in your code:
+	// $.blockUI.defaults.css = {};
+	css: {
+		padding:	0,
+		margin:		0,
+		width:		'30%',
+		top:		'40%',
+		left:		'35%',
+		textAlign:	'center',
+		color:		'#000',
+		border:		'3px solid #aaa',
+		backgroundColor:'#fff',
+		cursor:		'wait'
+	},
+	
+	// minimal style set used when themes are used
+	themedCSS: {
+		width:	'30%',
+		top:	'40%',
+		left:	'35%'
+	},
+
+	// styles for the overlay
+	overlayCSS:  {
+		backgroundColor: '#000',
+		opacity:	  	 0.6,
+		cursor:		  	 'wait'
+	},
+
+	// styles applied when using $.growlUI
+	growlCSS: {
+		width:  	'350px',
+		top:		'190px',
+		margin: 	'0 auto',
+		border: 	'2px solid  #ccc',
+		padding:	'10px',
+		opacity:	0.8,
+		cursor: 	'default',
+		color:		'#fff',
+		backgroundColor: '#99cc00',
+		'-webkit-border-radius': '10px',
+		'-moz-border-radius':	 '10px',
+		'border-radius': '5px'
+	},
+	
+	// IE issues: 'about:blank' fails on HTTPS and javascript:false is s-l-o-w
+	// (hat tip to Jorge H. N. de Vasconcelos)
+	iframeSrc: /^https/i.test(window.location.href || '') ? 'javascript:false' : 'about:blank',
+
+	// force usage of iframe in non-IE browsers (handy for blocking applets)
+	forceIframe: false,
+
+	// z-index for the blocking overlay
+	baseZ: 1000,
+
+	// set these to true to have the message automatically centered
+	centerX: true, // <-- only effects element blocking (page block controlled via css above)
+	centerY: true,
+
+	// allow body 

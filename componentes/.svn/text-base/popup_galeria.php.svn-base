@@ -1,0 +1,442 @@
+<?php
+ob_start();
+session_name("adm");
+session_start("adm");
+include("../inc/includes.php");
+
+$o_configuracao = new Configuracao;
+
+$url_vitual = $o_configuracao->url_virtual();
+
+if($_SESSION["acesso"] == "sim")
+{
+
+	switch($_REQUEST['acao'])
+	{
+		case 'gravar':
+			
+			$o_produto = new Produto;
+			$o_categoria_produto = new Categoria_produto;
+			$o_album = new Album;
+			$o_imagem = new Imagem;
+
+			/*Caso tenha imagens na session, cria o album e salva as imagens*/
+			if($_SESSION['imagens_galeria'] != "")
+			{
+				$o_album->set('estado', 'a');
+				$o_album->set('nome', 'Album da matéria '.$_REQUEST['titulo']);
+				$o_album->set('id_album_tipo', 1);
+				$o_album->set('data_hora', date("Y-m-d H:i:s"));
+				if($o_album->inserir())
+				{
+					if($r = $o_album->selecionar())
+					{
+						foreach($r as $l_album)
+						{
+							$id_album = $l_album['id'];
+						}
+					}
+					
+				}
+				
+				$imagens_nome = explode(",",$_SESSION['imagens_galeria']);
+				$array_tam = count($imagens_nome);
+				
+				for($i=0; $i < $array_tam; $i++)
+				{
+					if($imagens_nome[$i] != "")
+					{
+						$o_imagem->set('nome', $imagens_nome[$i]);
+						$o_imagem->set('estado', 'a');
+						$o_imagem->set('destaque', 'n');
+						$o_imagem->set('id_album', $id_album);
+						$o_imagem->inserir();
+					}
+				}
+				
+				$_SESSION['imagens_galeria'] = "";
+			}
+			/*Caso tenha imagens na session, cria o album e salva as imagens*/
+			
+			$o_produto->set('id_usuario',$_SESSION["usuario_numero"]);
+			$o_produto->set('corpo', $_REQUEST['descricao']);
+			$o_produto->set('nome', $_REQUEST['titulo']);
+			$o_produto->set('id_produto_tipo', 3);
+			$o_produto->set('estado', 'i');
+			$o_produto->set('id_album',$id_album);
+			if($o_produto->inserir())
+			{
+				if($rs = $o_produto->selecionar())
+				{
+					foreach($rs as $l)
+					{
+						$id_produto = $l['id'];
+					}
+				}
+				
+				$o_categoria_produto->set('id_categoria',$_REQUEST['cmp_categoria_id']);
+				$o_categoria_produto->set('id_produto',$id_produto);
+				$o_categoria_produto->inserir();
+			}
+			
+			
+
+			unset($o_produto);
+			unset($o_categoria_produto);
+			unset($o_album);
+			unset($o_imagem);
+			
+		break; 
+		
+		default:
+		
+			$_SESSION['imagens_galeria'] = "";
+		
+		break;
+		
+	}
+	
+	
+	?>
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" src="http://localhost/oportunidade/inc/js/customSelect.jquery.js"></script>
+	
+	<style type="text/css">
+	
+		h3
+		{
+			font-size: 14px;
+			color: #535353;
+			margin-bottom: 10px;
+			margin-top: 10px;
+		}
+		
+		input[type=text]
+		{
+			float: left;
+			background-color: #e2e1e1;
+			border: none;
+			height: 30px;
+			margin-bottom: 10px;
+		}
+		
+		.select_material
+		{
+			float: left;
+			background-color: #e2e1e1;
+			border:none;
+		}
+		
+		form
+		{
+			width: 390px;
+			margin-left: 50px;
+		}
+		
+		.cidade
+		{
+			width: 250px;
+			float: left;
+		}
+		
+		.estado
+		{
+			width: 140px;
+			float: left;
+		}
+		
+		h2
+		{
+			margin-top: 55px;
+			margin-left: 50px;
+			font-size: 22px;
+		}
+		
+		select
+		{
+			background-color: #f1ecec; 
+		}
+		
+		span.customSelect 
+		{ 
+			font-size:14px; 
+			background-image: url(http://localhost/oportunidade/imagens/site/combo_select.png);
+			width: 385px;
+			color:#535353; 
+			padding-top: 14px;
+			border:none;
+		}
+		
+		span.customSelect.changed 
+		{ 
+			background-color: #f1ecec; 
+		}
+		
+		.customSelect.customSelectOpen {
+			background-color: #f1ecec; 
+		}
+		
+		.add_arquivo
+		{
+			background: none;
+			background-image: url(http://localhost/oportunidade/imagens/site/btn_adicionar_arquivo.png);
+			border: none;
+			width: 160px;
+			height: 26px;
+		}
+		
+		.enviar
+		{
+			background: none;
+			background-image: url(http://localhost/oportunidade/imagens/site/btn_enviar.png);
+			border: none;
+			width: 105px;
+			height: 26px;
+		}
+	
+	</style>
+	
+	<script type="text/javascript">
+	$(function(){
+	
+	$('select.styled').customSelect();
+	
+	});
+	
+	function abre_janela_02(theURL,winName,features)
+		{
+			window.open(theURL,winName,features);
+		}
+	</script>
+	
+	</head>
+	
+	
+	
+	<body>
+	<h2>Preencha o formulario abaixo:</h2>
+	
+	<form name="formulario_galeria" action="http://localhost/oportunidade/componentes/popup_galeria.php?acao=gravar" method="post">
+		<h3>Nome:</h3>
+		<input type="text" name="nome" value="<?= $_SESSION["usuario_usuario"] ?>" style='width: 100%;'>
+		
+		
+		<h3>E-mail:</h3>
+		<input type="text" name="email" value="<?= $_SESSION["usuario_email"] ?>" style='width: 100%;'>
+		
+		<h3>Titulo:</h3>
+		<input type="text" name="titulo" value="" style='width: 100%;'>
+		
+		<h3>Descricao:</h3>
+		<input type="text" name="descricao" value="" style='width: 100%;'>
+		
+		<div class="cidade">
+			<h3>Cidade:</h3>
+			<input type="text" name="cidade" value="<?= $_SESSION["usuario_cidade"]?>" style='width: 80%;'>
+		</div>
+	
+		
+		<div class="estado">
+			<h3>Estado:</h3>
+			<input type="text" name="estado" value="<?= $_SESSION["usuario_uf"]?>" style='width: 100%;'>
+		</div>
+		
+		<h3>Tipo de material:</h3>
+		<select class="styled" name="cmp_categoria_id">
+			<option>Escolha...</option>
+			<?php
+				$o_categoria = new Categoria();
+				$o_categoria->set('estado','a');
+				if($rs = $o_categoria->selecionar())
+				{
+					foreach($rs as $l)
+					{
+						echo "<option value=\"".$l['id']."\">".$l['nome']."</option>";
+					}
+				}
+				
+			?>
+		</select>
+		
+		<br><br>		
+		<image src="http://localhost/oportunidade/imagens/site/btn_adicionar_arquivo.png" onclick="javascript:abre_janela_02('http://localhost/oportunidade/utilitarios/img_util.php?formulario=formulario_galeria&campo_nome=imagem_galeria&pasta_destino=galeria&img_util=img_procura2','img_util','scrollbars=yes,resizable=yes,width=450,height=300');"/>
+		
+		<input type="text" name="imagem_galeria" />
+		
+		<img id="imagem_galeria_" name="imagem_galeria_" src="" width="107" height="98" />
+		
+		<div id="add_input_div">
+		</div>
+		
+		
+		
+		<input type="submit" name="enviar" value="" class="enviar">
+		
+	</form>
+	
+	
+	
+	</body>
+<?php
+}
+
+/*Caso nao esteja logado*/
+else
+{
+
+	
+
+	ob_start();
+	session_name("adm");
+	session_start("adm");
+	
+	require_once("../inc/classe_configuracao.php");
+	require_once("../inc/classe_conexao.php");
+	require_once("../inc/classe_executa.php");
+	require_once("../classes/classe_usuario.php");
+	require_once("../classes/classe_mensagem.php");
+	require_once("../classes/classe_auditoria.php");
+	require_once("../classes/classe_usuario_ambiente.php");
+	require_once("../inc/classe_ajudante.php");
+	
+	$o_usuario = new Usuario;
+	$o_auditoria = new Auditoria;
+	$o_ajudante = new Ajudante();
+	$o_configuracao = new Configuracao;
+	
+	?>
+	
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+	<link rel="stylesheet" type="text/css" href="../inc/css/formatacao_gc.css" media="screen" />
+	
+	<title><?=$o_configuracao->site_nome()?> : Sistema de Gestão</title>
+	</head>
+	
+	<body>
+	<?php
+	ini_set('display_errors', E_ALL);
+	
+	switch($_REQUEST["acao_logar"])
+	{	
+	
+		case 'logado':
+			//trata dados do usuário
+			$nome = htmlspecialchars($o_ajudante->trata_input($_POST['_nome']));
+			$senha = htmlspecialchars($o_ajudante->trata_input($_POST['_senha']));
+	
+			if(!(empty($nome) AND ($senha)))
+			{
+				 //busca usuário cuso tipo é igual aos dados enviados e tipo = 1 (administrador)
+				$o_usuario->set('login',$nome);
+				$o_usuario->set('senha',$senha);
+				//$o_usuario->set('estado','a');
+	
+				if($rs = $o_usuario->selecionar_usuario_pessoa())
+				{
+					//usuário existe - registra as informações na sessão
+					
+					foreach($rs as $linha)
+					{
+						$_SESSION["usuario_numero"] = $linha["usuario_id"];
+						$_SESSION["usuario_usuario"] = $linha["usuario_nome"];
+						$_SESSION["usuario_tipo_id"] = $linha["id"];
+						$_SESSION["usuario_cidade"] = $linha["cidade"];
+						$_SESSION["usuario_uf"] = $linha["uf"];
+						$_SESSION["usuario_email"] = $linha["usuario_email"];
+						$_SESSION["usuario_adm_tipo"] = $linha["tipo_nome"];
+						$_SESSION["usuario_data_hora"] = $linha["data_acesso"];
+						$_SESSION["acesso"] = "sim";
+					}
+	
+					//insere todas permissões em variável de sessão
+					$o_usuario_ambiente = new Usuario_ambiente;
+					$o_usuario_ambiente->set('id_usuario_tipo',$_SESSION["usuario_tipo_id"]);
+					if($rs = $o_usuario_ambiente->selecionar())
+					{
+						foreach($rs as $l)
+						{
+							$grupo_ambientes[] = $l['id_ambiente'];
+						}
+					}
+					$_SESSION['grupo_ambientes'] = $grupo_ambientes;
+	
+					//print_r($_SESSION['grupo_ambientes']);
+					
+					$o_auditoria->set('acao_descricao',"Acessou o sistema.");
+					$o_auditoria->inserir();
+	
+					header("Location: ".$_REQUEST['url_02']."");
+					exit();
+				}
+				else
+				{
+					header("Location: popup_galeria.php?p=a"); 
+					exit();
+				}
+			}
+			else
+			{
+				echo "Favor digitar corretamente usuário e senha.";
+			}
+		break;
+	
+	
+		default:
+			switch($_REQUEST['p'])
+			{
+				case "a":
+					$msg = "Não foi possível o acesso ao Gestor de Conteúdo. Os dados que você ingressou estão incorretos ou seu usuário encontra-se off-line. Tente novamente, ou entre em contato com seu webmaster <a href=\"mailto:?Subject=Problema%20no%20Acesso%20-%20Painel%20de%20Controle%20:%20$nome_site&body=Digite%20aqui%20o%20problema...\">clicando aqui</a>.";
+				break;
+	
+				case "b":
+					$msg = "Entre com seus dados abaixo para ter acesso ao Painel de Controle do $nome_site";
+				break;
+	
+				case "c":
+					$msg = "Este e-mail não existe no nosso banco de dados. Clique no endereço de e-mail a seguir para entrar em contato: <a href='mailto:".$o_configuracao->email_contato()."?subject=Senha Perdida&Body=Favor enviar minha senha. Meus dados para contato são: (favor enviar nome, telefone e e-mail.'>".$o_configuracao->email_contato()."</a>.";
+				break;
+	
+				default:
+					$msg = "Entre com seus dados abaixo para ter acesso ao Gestor de Conteúdo.";
+				break;
+			}
+	
+			?>
+			<div id="caixa-login">
+				<div>
+					<span>
+						<h1>IDENTIFICA&Ccedil;&Atilde;O</h1>
+						<?=$msg?>
+						<br />
+						<br />
+						<form name="formulario_logar" method="post" action="<?=$_SERVER['PHP_SELF']?>?acao_logar=logado&url_02=<?= $url_vitual?>componentes/popup_galeria.php">
+							<strong>Nome</strong><input name="_nome" id="_nome" size="20">
+							<hr />
+							<strong>senha</strong><input type="password" size="20" value name="_senha">
+							<hr />
+							<strong>&nbsp;</strong><input  type="image" src="../imagens/gc/btn_entrar.gif" alt="entrar" onclick="return checa_campos('login');" width="86" height="20" />
+						</form>
+					</span>
+				</div>
+			</div>
+			<?php
+		break;
+	}
+	
+}
+
+?>
+
+
+
+
+
+
+
+

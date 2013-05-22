@@ -1,0 +1,118 @@
+<?php
+ob_start();
+session_name("adm");
+session_start("adm");
+include("../inc/includes.php");
+
+$o_configuracao = new Configuracao;
+$o_ajudante = new Ajudante;
+
+$url_vitual = $o_configuracao->url_virtual();
+
+
+	switch($_REQUEST['acao'])
+	{		
+		case 'correspondentes':
+			
+			switch($_REQUEST['subacao'])
+			{
+				case 'enviar':
+					
+					if(trim($_REQUEST['nome']) != "" && trim($_REQUEST['nome']) != 'nome' && trim($_REQUEST['email']) != "" && trim($_REQUEST['email']) != "email")
+					{
+						$mensagem_mail = "Ol&aacute; <b>".$_REQUEST['nome']."</b>. Seu mensagem foi enviado com sucesso.<br/><br/>";
+								
+						$mensagem_mail .= "NOME COMPLETO: <b>".$_REQUEST['nome']."</b>.<br/>";
+						$mensagem_mail .= "EMAIL: <b>".$_REQUEST['email']."</b>.<br/>";
+						$mensagem_mail .= "CIDADE: <b>".$_REQUEST['cidade']."</b>.<br/><br/>";
+						$mensagem_mail .= "ESTADO: <b>".$_REQUEST['estado']."</b>.<br/><br/>";
+						if($o_ajudante->email_html("Notificação - ".$o_configuracao->site_nome(),$mensagem_mail,$o_configuracao->email_contato(),$_REQUEST['_email'],"templates/template_mailing.htm"))
+						{
+							echo "email enviado com sucesso!";
+						}
+						else
+						{
+							echo "Envio de mensagem falhou tente mais tarde.";
+						}
+					}
+				
+				break;
+				
+				default:
+					?>
+					<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+					<html xmlns="http://www.w3.org/1999/xhtml">
+					<head>
+					<link href="../inc/css/formatacao.css" rel="stylesheet" type="text/css" />
+					
+					<script type="text/javascript">
+					$(function(){
+					
+					$('select.styled').customSelect();
+					
+					});
+					
+					function abre_janela_02(theURL,winName,features)
+						{
+							window.open(theURL,winName,features);
+						}
+					</script>
+					
+					</head>
+					
+					
+					
+					<body>
+					<h2 class="titulo_form">Preencha o formulario abaixo:</h2>
+					
+					<form name="formulario_galeria" id="formulario_galeria" action="../componentes/popup_formularios.php?acao=correspondentes&subacao=enviar" method="post">
+						<strong>Nome:</strong>
+						<input type="text" name="nome" value="" style='width: 100%;'>
+						
+						
+						<strong>E-mail:</strong>
+						<input type="text" name="email" value="" style='width: 100%;'>
+						
+						<div class="cidade">
+							<strong>Cidade:</strong>
+							<input type="text" name="cidade" value="" style='width: 240px;'>
+						</div>
+					
+						
+						<div class="estado">
+							<strong>Estado:</strong>
+							<input type="text" name="estado" value="" style='width: 140px;'>
+						</div>
+						
+										
+						<input type="submit" name="enviar" value="" class="enviar">
+						
+					</form>
+					
+					
+					
+					</body>
+				
+					<?php
+					
+				break;//Fecha default de subacao
+				
+			}//Switch de Subacao
+			
+		break;//Fecha correspondentes
+		
+		default:
+		
+		break;
+		
+	}
+	
+unset($o_ajudante);
+unset($o_configuracao);
+?>
+
+
+
+
+
+

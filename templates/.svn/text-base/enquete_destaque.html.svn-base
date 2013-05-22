@@ -1,0 +1,11 @@
+<div class="[class]">
+	<div class="element_contenedor [class_element] element_pergunta">
+		<h2>[titulo]</h2>
+		
+		<div class="corpo_retrato">[pergunta_questao]</div>
+		
+		[show_div]
+		
+	</div>
+	
+</div>

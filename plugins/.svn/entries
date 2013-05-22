@@ -1,0 +1,58 @@
+10
+
+dir
+52
+svn+ssh://serverguapa@192.168.0.30/Users/serverguapa/GUAPArep/oportunidade/plugins
+svn+ssh://serverguapa@192.168.0.30/Users/serverguapa/GUAPArep
+
+
+
+2013-01-24T17:31:39.273167Z
+47
+serverguapa
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2e896f67-2424-4659-959b-9d70eea1cf62
+
+chars
+dir
+
+masonry
+dir
+
+tinymce
+dir
+
+fancybox
+dir
+
+tables
+dir
+
+fileuploader
+dir
+
+uploader
+dir
+
+PIE
+dir
+
+graficos
+dir
+
+miniColors
+dir
+

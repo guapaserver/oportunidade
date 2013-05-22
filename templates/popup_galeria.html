@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="http://localhost/oportunidade/inc/js/customSelect.jquery.js"></script>
+
+<style type="text/css">
+
+	h3
+	{
+		font-size: 14px;
+		color: #535353;
+		margin-bottom: 10px;
+		margin-top: 10px;
+	}
+	
+	input[type=text]
+	{
+		float: left;
+		background-color: #e2e1e1;
+		border: none;
+		height: 30px;
+		margin-bottom: 10px;
+	}
+	
+	.select_material
+	{
+		float: left;
+		background-color: #e2e1e1;
+		border:none;
+	}
+	
+	form
+	{
+		width: 390px;
+		margin-left: 50px;
+	}
+	
+	.cidade
+	{
+		width: 250px;
+		float: left;
+	}
+	
+	.estado
+	{
+		width: 140px;
+		float: left;
+	}
+	
+	h2
+	{
+		margin-top: 55px;
+		margin-left: 50px;
+		font-size: 22px;
+	}
+	
+	select
+	{
+		background-color: #f1ecec; 
+	}
+	
+	span.customSelect 
+	{ 
+		font-size:14px; 
+		background-image: url(http://localhost/oportunidade/imagens/site/combo_select.png);
+		width: 385px;
+		color:#535353; 
+		padding-top: 14px;
+		border:none;
+	}
+	
+	span.customSelect.changed 
+	{ 
+		background-color: #f1ecec; 
+	}
+	
+	.customSelect.customSelectOpen {
+		background-color: #f1ecec; 
+	}
+	
+	.add_arquivo
+	{
+		background: none;
+		background-image: url(http://localhost/oportunidade/imagens/site/btn_adicionar_arquivo.png);
+		border: none;
+		width: 160px;
+		height: 26px;
+	}
+	
+	.enviar
+	{
+		background: none;
+		background-image: url(http://localhost/oportunidade/imagens/site/btn_enviar.png);
+		border: none;
+		width: 105px;
+		height: 26px;
+	}
+
+</style>
+
+<script type="text/javascript">
+$(function(){
+
+$('select.styled').customSelect();
+
+});
+</script>
+
+</head>
+
+<body>
+<h2>Preencha o formulario abaixo:</h2>
+
+<form action="" method="post">
+	<h3>Nome:</h3>
+	<input type="text" name="nome" value="" style='width: 100%;'>
+	
+	
+	<h3>E-mail:</h3>
+	<input type="text" name="email" value="" style='width: 100%;'>
+
+	
+	<div class="cidade">
+		<h3>Cidade:</h3>
+		<input type="text" name="cidade" value="" style='width: 80%;'>
+	</div>
+
+	
+	<div class="estado">
+		<h3>Estado:</h3>
+		<input type="text" name="estado" value="" style='width: 100%;'>
+	</div>
+	
+	<h3>Tipo de material:</h3>
+	<select class="styled">
+		<option>Escolha...</option>
+		<option>Ilustração</option>
+		<option>Fotografia</option>
+		<option>Vídeo</option>
+	</select>
+	
+	<br><br>
+	<div id="div_carrega_imagem">
+		<input type="hidden" name="_id_album" id="_id_album" value="<?=$id_album?>">
+		<strong>Imagem em destaque (visível na home)</strong><br />
+			<p><input name="arquivo" id="arquivo" type="file" /></p>
+		<hr class="hr_invisible">
+	</div>
+	
+	<input type="submit" name="adicionar_arquivo" value="" class="add_arquivo">
+	<input type="submit" name="enviar" value="" class="enviar">
+	
+</form>
+</body>
+
+
+
+
+
+
+
+

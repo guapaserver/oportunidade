@@ -1,0 +1,136 @@
+
+body
+{
+	background-image: url(../../imagens/site/fundo.png);
+	margin: 0px;
+	display:block;
+	padding:0;
+	background-position: top;
+}
+
+/*MENU TOPO*/
+#largura_menu_topo
+{
+	font-family: 'DINNeuzeitGroteskStdBoldCnRg';
+	top:0px;
+	height:27px;
+	background: #f4f1e1;
+	display:block;
+	border-top-width: thick;
+	border-top-style: solid;
+	border-top-color: #fff;
+	border-top-width: 1px;
+}
+
+/*BANNER*/
+#largura_banner
+{
+	display:block;
+	min-height:160px;
+	max-height:160px;
+	background-color:#fff;
+}
+
+#logo 
+{
+	display:block;
+	/*width:282px;*/
+	width:100%;
+	margin:0 auto;	
+	float:left;
+	height:116px;/*84 + 25 + 7*/
+}
+
+#logo  img
+{
+	display:block;
+	/*width:282px;	*/
+	margin-top:25px;
+	margin-bottom:7px;
+	
+	/*centra a imagem*/
+	left:50%;
+	margin-left:-141px;	
+	position:relative;
+	/*fin centra img*/
+	
+	/*float:right;*/
+}
+
+#largura_banner hr
+{
+	display:block;
+	width:100%;
+	border-width: 0;
+	height: 1px;
+	border-top: 1px solid #e7e0b3;
+	margin:1px;
+
+	float:left;
+}
+
+/*MENU CATEGORIA*/
+#conteudo_sub_menu{
+	display:block;
+	font-family: 'DINNeuzeitGroteskStdBoldCnRg';
+	width:100%;
+	height: 39px;
+	float:left;
+}
+
+/*FIM MENU CATEGORIA*/
+
+/*BASE BANNER*/
+#base_banner
+{
+	display:block;
+	min-height:15px;
+	background:#b9b38b;
+}
+/* FIM BASE BANNER*/
+
+.element 
+{
+	
+	font-size:14px;
+	font-style:normal;
+	background:#fff !important;
+	margin: 0 14px 15px 0 !important;
+	padding:3px !important;
+}
+
+.sombra_01
+{
+	display:block;
+	background-image: url(../../imagens/site/sombra_01.png);
+	width:259px;
+	height:6px;
+	margin-top:3px;
+}
+
+.sombra_02
+{
+	display:block;
+	background-image: url(../../imagens/site/sombra_02.png);
+	width:532px;
+	height:9px;
+	margin-top:3px;
+}
+
+.sombra_03
+{
+	display:block;
+	background-image: url(../../imagens/site/sombra_03.png);
+	width:809px;
+	height:14px;
+	margin-top:3px;
+}
+
+.sombra_04
+{
+	display:block;
+	background-image: url(../../imagens/site/sombra_04.png);
+	width:1091px;
+	height:19px;
+	margin-top:3px;
+}

@@ -1,0 +1,45 @@
+<div class="corpo_login">
+	<div class="box_login">
+		<div id="login_interno">
+			
+			<div class="conteudo_login">
+			<h3>Ja &eacute; cadastrado?</h3>
+			<h2>ACESSE SUA CONTA!</h2>
+			
+			<form method="post" action="[acao]">
+				<strong>e-mail:</strong>
+				<input type="text" name="_email" value="" />
+				
+				<hr>
+				
+				<strong>senha:</strong>
+				<input type="password" name="_senha" value="" />
+				
+				<span>[msg]</span>
+				<input type="submit" name="enviar" value=""/>
+				<input type="hidden" name="acao" value="logar" />
+				<input type="hidden" name="ambiente" value="[ambiente]" />
+			</form>
+			
+			</div>
+			
+		</div>
+	</div>
+	
+	<div class="box_login">
+		<div id="login_interno">
+			
+			<div class="conteudo_cadastro">
+			<h3>Ainda n&atilde;o tem cadastro?</h3>
+			<p>CADASTRE-SE<br><br>
+			
+			e tenha acesso <br>
+				a novas oportunidades!</p>
+			
+			
+			<img src="[url_virtual]imagens/site/btn_cria_cadastro.png" onclick="fancy_function('[url_virtual]componentes/popup_formularios.php?acao=correspondentes&subacao=',700,860,'iframe')" />
+			</div>
+			
+		</div>
+	</div>
+</div>
